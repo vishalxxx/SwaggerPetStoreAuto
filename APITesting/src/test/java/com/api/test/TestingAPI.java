@@ -1,6 +1,9 @@
 package com.api.test;
 
+import java.io.File;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
@@ -18,6 +21,49 @@ public class TestingAPI {
 
 	@Test(groups="sanity")
 
+	public void AddPetImagePositive() {
+		
+		String endpoint = "/pet";
+		String id = "13";
+		String metaData = "Hello this is test Data";
+		File file = new File("/Users/vishalgoswami/Desktop/UN/Resume/Vishal_Goswami_Resume.pdf");
+		
+		Response response = new PetService().UploadPetImage(file, endpoint, metaData, id);
+		response.prettyPrint();
+	}
+	
+	
+	@Test
+	public void FindByStatus() {
+		String endpoint = "/pet/findByStatus";
+		String status = "available";//available, pending, sold
+		
+		Response response = new PetService().FindByStatus(status, endpoint);
+		response.prettyPrint();
+	}
+	
+	@Test
+	public void UpdatePetPositive() {
+		String endpoint = "/pet";
+		Category cat = new Category();
+		cat.setId(13);
+		cat.setName("updated dog");
+		Tag tag = new Tag();
+		tag.setId(13);
+		tag.setName("Dog tag");
+		AddPetPojo ap = new AddPetPojo();
+		ap.setCategory(cat);
+		ap.setTags(Arrays.asList(tag));
+		ap.setId(13);
+		ap.setName("Dog");
+		ap.setPhotoUrls(Arrays.asList("heelo"));
+		ap.setStatus("Updated");
+		Response response = new PetService().UpdatePet(ap, endpoint);
+		
+		response.prettyPrint();
+		
+	}
+	
 	
 	public void addpetpositive() {
 		String endpoint = "/pet";
